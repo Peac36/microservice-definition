@@ -48,7 +48,7 @@ message IndexPostRequest {
 
 }
 
-message IndexPostReponse {
+message IndexPostResponse {
     repeated Post post = 1;
 }
 
@@ -57,5 +57,5 @@ service PostService {
     rpc update(UpdatePostRequest) returns (UpdatePostResponse) {}
     rpc delete(DeletePostRequest) returns (DeletePostResponse) {}
     rpc get(GetPostRequest) returns (GetPostResponse) {}
-    rpc index(IndexPostRequest) returns (IndexPostRequest) {}
+    rpc index(IndexPostRequest) returns (IndexPostResponse) {}
 }
