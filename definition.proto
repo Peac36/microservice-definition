@@ -25,7 +25,7 @@ message UpdatePostRequest{
 }
 
 message UpdatePostResponse{
-    int32 id = 1;
+    Post post = 1;
 }
 
 message DeletePostRequest {
