@@ -22,7 +22,7 @@ type PostServiceClient interface {
 	Update(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	Delete(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostResponse, error)
 	Get(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
-	Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostRequest, error)
+	Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostResponse, error)
 }
 
 type postServiceClient struct {
@@ -69,8 +69,8 @@ func (c *postServiceClient) Get(ctx context.Context, in *GetPostRequest, opts ..
 	return out, nil
 }
 
-func (c *postServiceClient) Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostRequest, error) {
-	out := new(IndexPostRequest)
+func (c *postServiceClient) Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostResponse, error) {
+	out := new(IndexPostResponse)
 	err := c.cc.Invoke(ctx, "/servicesDefinitions.PostService/index", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ type PostServiceServer interface {
 	Update(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	Delete(context.Context, *DeletePostRequest) (*DeletePostResponse, error)
 	Get(context.Context, *GetPostRequest) (*GetPostResponse, error)
-	Index(context.Context, *IndexPostRequest) (*IndexPostRequest, error)
+	Index(context.Context, *IndexPostRequest) (*IndexPostResponse, error)
 	mustEmbedUnimplementedPostServiceServer()
 }
 
@@ -106,7 +106,7 @@ func (UnimplementedPostServiceServer) Delete(context.Context, *DeletePostRequest
 func (UnimplementedPostServiceServer) Get(context.Context, *GetPostRequest) (*GetPostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedPostServiceServer) Index(context.Context, *IndexPostRequest) (*IndexPostRequest, error) {
+func (UnimplementedPostServiceServer) Index(context.Context, *IndexPostRequest) (*IndexPostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Index not implemented")
 }
 func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
