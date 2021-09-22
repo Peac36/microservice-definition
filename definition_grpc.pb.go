@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PostServiceClient interface {
-	Create(ctx context.Context, in *CreatePost, opts ...grpc.CallOption) (*CreatePostResponse, error)
+	Create(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*CreatePostResponse, error)
 	Update(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	Delete(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostResponse, error)
 	Get(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
@@ -32,7 +32,7 @@ func NewPostServiceClient(cc grpc.ClientConnInterface) PostServiceClient {
 	return &postServiceClient{cc}
 }
 
-func (c *postServiceClient) Create(ctx context.Context, in *CreatePost, opts ...grpc.CallOption) (*CreatePostResponse, error) {
+func (c *postServiceClient) Create(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*CreatePostResponse, error) {
 	out := new(CreatePostResponse)
 	err := c.cc.Invoke(ctx, "/servicesDefinitions.PostService/create", in, out, opts...)
 	if err != nil {
@@ -72,7 +72,7 @@ func (c *postServiceClient) Get(ctx context.Context, in *GetPostRequest, opts ..
 // All implementations must embed UnimplementedPostServiceServer
 // for forward compatibility
 type PostServiceServer interface {
-	Create(context.Context, *CreatePost) (*CreatePostResponse, error)
+	Create(context.Context, *CreatePostRequest) (*CreatePostResponse, error)
 	Update(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	Delete(context.Context, *DeletePostRequest) (*DeletePostResponse, error)
 	Get(context.Context, *GetPostRequest) (*GetPostResponse, error)
@@ -83,7 +83,7 @@ type PostServiceServer interface {
 type UnimplementedPostServiceServer struct {
 }
 
-func (UnimplementedPostServiceServer) Create(context.Context, *CreatePost) (*CreatePostResponse, error) {
+func (UnimplementedPostServiceServer) Create(context.Context, *CreatePostRequest) (*CreatePostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedPostServiceServer) Update(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error) {
@@ -109,7 +109,7 @@ func RegisterPostServiceServer(s grpc.ServiceRegistrar, srv PostServiceServer) {
 }
 
 func _PostService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePost)
+	in := new(CreatePostRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func _PostService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/servicesDefinitions.PostService/create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).Create(ctx, req.(*CreatePost))
+		return srv.(PostServiceServer).Create(ctx, req.(*CreatePostRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
