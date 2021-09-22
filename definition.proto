@@ -45,11 +45,12 @@ message GetPostResponse {
 }
 
 message IndexPostRequest {
-
+    int32 page = 1;
+    int32 per_page = 2;
 }
 
 message IndexPostResponse {
-    repeated Post post = 1;
+    repeated Post posts = 1;
 }
 
 service PostService {
