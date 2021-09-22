@@ -12,7 +12,7 @@ message Post {
 }
 
 
-message CreatePost {
+message CreatePostRequest {
     Post post = 1;
 }
 
@@ -45,7 +45,7 @@ message GetPostResponse {
 }
 
 service PostService {
-    rpc create(CreatePost) returns (CreatePostResponse) {}
+    rpc create(CreatePostRequest) returns (CreatePostResponse) {}
     rpc update(UpdatePostRequest) returns (UpdatePostResponse) {}
     rpc delete(DeletePostRequest) returns (DeletePostResponse) {}
     rpc get(GetPostRequest) returns (GetPostResponse) {}
