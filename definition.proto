@@ -44,9 +44,18 @@ message GetPostResponse {
     Post post = 1;
 }
 
+message IndexPostRequest {
+
+}
+
+message IndexPostReponse {
+    repeated Post post = 1;
+}
+
 service PostService {
     rpc create(CreatePostRequest) returns (CreatePostResponse) {}
     rpc update(UpdatePostRequest) returns (UpdatePostResponse) {}
     rpc delete(DeletePostRequest) returns (DeletePostResponse) {}
     rpc get(GetPostRequest) returns (GetPostResponse) {}
+    rpc index(IndexPostRequest) returns (IndexPostRequest) {}
 }

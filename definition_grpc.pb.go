@@ -22,6 +22,7 @@ type PostServiceClient interface {
 	Update(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	Delete(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostResponse, error)
 	Get(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
+	Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostRequest, error)
 }
 
 type postServiceClient struct {
@@ -68,6 +69,15 @@ func (c *postServiceClient) Get(ctx context.Context, in *GetPostRequest, opts ..
 	return out, nil
 }
 
+func (c *postServiceClient) Index(ctx context.Context, in *IndexPostRequest, opts ...grpc.CallOption) (*IndexPostRequest, error) {
+	out := new(IndexPostRequest)
+	err := c.cc.Invoke(ctx, "/servicesDefinitions.PostService/index", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServiceServer is the server API for PostService service.
 // All implementations must embed UnimplementedPostServiceServer
 // for forward compatibility
@@ -76,6 +86,7 @@ type PostServiceServer interface {
 	Update(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	Delete(context.Context, *DeletePostRequest) (*DeletePostResponse, error)
 	Get(context.Context, *GetPostRequest) (*GetPostResponse, error)
+	Index(context.Context, *IndexPostRequest) (*IndexPostRequest, error)
 	mustEmbedUnimplementedPostServiceServer()
 }
 
@@ -94,6 +105,9 @@ func (UnimplementedPostServiceServer) Delete(context.Context, *DeletePostRequest
 }
 func (UnimplementedPostServiceServer) Get(context.Context, *GetPostRequest) (*GetPostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedPostServiceServer) Index(context.Context, *IndexPostRequest) (*IndexPostRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Index not implemented")
 }
 func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
 
@@ -180,6 +194,24 @@ func _PostService_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PostService_Index_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IndexPostRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).Index(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/servicesDefinitions.PostService/index",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).Index(ctx, req.(*IndexPostRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PostService_ServiceDesc is the grpc.ServiceDesc for PostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +234,10 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "get",
 			Handler:    _PostService_Get_Handler,
+		},
+		{
+			MethodName: "index",
+			Handler:    _PostService_Index_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
