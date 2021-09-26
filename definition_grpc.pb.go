@@ -248,8 +248,8 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CategoryServiceClient interface {
-	Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreatePostResponse, error)
-	FindMany(ctx context.Context, in *FindManyCatagoryRequest, opts ...grpc.CallOption) (*FindManyCatagoryResponse, error)
+	Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
+	FindMany(ctx context.Context, in *FindManyCategoryRequest, opts ...grpc.CallOption) (*FindManyCategoryResponse, error)
 }
 
 type categoryServiceClient struct {
@@ -260,8 +260,8 @@ func NewCategoryServiceClient(cc grpc.ClientConnInterface) CategoryServiceClient
 	return &categoryServiceClient{cc}
 }
 
-func (c *categoryServiceClient) Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreatePostResponse, error) {
-	out := new(CreatePostResponse)
+func (c *categoryServiceClient) Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error) {
+	out := new(CreateCategoryResponse)
 	err := c.cc.Invoke(ctx, "/servicesDefinitions.CategoryService/create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -269,8 +269,8 @@ func (c *categoryServiceClient) Create(ctx context.Context, in *CreateCategoryRe
 	return out, nil
 }
 
-func (c *categoryServiceClient) FindMany(ctx context.Context, in *FindManyCatagoryRequest, opts ...grpc.CallOption) (*FindManyCatagoryResponse, error) {
-	out := new(FindManyCatagoryResponse)
+func (c *categoryServiceClient) FindMany(ctx context.Context, in *FindManyCategoryRequest, opts ...grpc.CallOption) (*FindManyCategoryResponse, error) {
+	out := new(FindManyCategoryResponse)
 	err := c.cc.Invoke(ctx, "/servicesDefinitions.CategoryService/findMany", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -282,8 +282,8 @@ func (c *categoryServiceClient) FindMany(ctx context.Context, in *FindManyCatago
 // All implementations must embed UnimplementedCategoryServiceServer
 // for forward compatibility
 type CategoryServiceServer interface {
-	Create(context.Context, *CreateCategoryRequest) (*CreatePostResponse, error)
-	FindMany(context.Context, *FindManyCatagoryRequest) (*FindManyCatagoryResponse, error)
+	Create(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
+	FindMany(context.Context, *FindManyCategoryRequest) (*FindManyCategoryResponse, error)
 	mustEmbedUnimplementedCategoryServiceServer()
 }
 
@@ -291,10 +291,10 @@ type CategoryServiceServer interface {
 type UnimplementedCategoryServiceServer struct {
 }
 
-func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateCategoryRequest) (*CreatePostResponse, error) {
+func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedCategoryServiceServer) FindMany(context.Context, *FindManyCatagoryRequest) (*FindManyCatagoryResponse, error) {
+func (UnimplementedCategoryServiceServer) FindMany(context.Context, *FindManyCategoryRequest) (*FindManyCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMany not implemented")
 }
 func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
@@ -329,7 +329,7 @@ func _CategoryService_Create_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _CategoryService_FindMany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindManyCatagoryRequest)
+	in := new(FindManyCategoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -341,7 +341,7 @@ func _CategoryService_FindMany_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/servicesDefinitions.CategoryService/findMany",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).FindMany(ctx, req.(*FindManyCatagoryRequest))
+		return srv.(CategoryServiceServer).FindMany(ctx, req.(*FindManyCategoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
