@@ -66,11 +66,11 @@ message CreateCategoryResponse {
     Category category = 1;
 }
 
-message FindManyCatagoryRequest {
+message FindManyCategoryRequest {
     repeated int32 id = 1;
 }
 
-message FindManyCatagoryResponse {
+message FindManyCategoryResponse {
     repeated Category categories = 1;
 
 }
@@ -84,5 +84,5 @@ service PostService {
 
 service CategoryService {
     rpc create(CreateCategoryRequest) returns (CreateCategoryResponse) {}
-    rpc findMany(FindManyCatagoryRequest) returns (FindManyCatagoryResponse) {}
+    rpc findMany(FindManyCategoryRequest) returns (FindManyCategoryResponse) {}
 }
