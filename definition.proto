@@ -83,6 +83,6 @@ service PostService {
 }
 
 service CategoryService {
-    rpc create(CreateCategoryRequest) returns (CreatePostResponse) {}
+    rpc create(CreateCategoryRequest) returns (CreateCategoryResponse) {}
     rpc findMany(FindManyCatagoryRequest) returns (FindManyCatagoryResponse) {}
 }
