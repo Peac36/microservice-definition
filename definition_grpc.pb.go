@@ -243,3 +243,125 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "definition.proto",
 }
+
+// CategoryServiceClient is the client API for CategoryService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CategoryServiceClient interface {
+	Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreatePostResponse, error)
+	FindMany(ctx context.Context, in *FindManyCatagoryRequest, opts ...grpc.CallOption) (*FindManyCatagoryResponse, error)
+}
+
+type categoryServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCategoryServiceClient(cc grpc.ClientConnInterface) CategoryServiceClient {
+	return &categoryServiceClient{cc}
+}
+
+func (c *categoryServiceClient) Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreatePostResponse, error) {
+	out := new(CreatePostResponse)
+	err := c.cc.Invoke(ctx, "/servicesDefinitions.CategoryService/create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) FindMany(ctx context.Context, in *FindManyCatagoryRequest, opts ...grpc.CallOption) (*FindManyCatagoryResponse, error) {
+	out := new(FindManyCatagoryResponse)
+	err := c.cc.Invoke(ctx, "/servicesDefinitions.CategoryService/findMany", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CategoryServiceServer is the server API for CategoryService service.
+// All implementations must embed UnimplementedCategoryServiceServer
+// for forward compatibility
+type CategoryServiceServer interface {
+	Create(context.Context, *CreateCategoryRequest) (*CreatePostResponse, error)
+	FindMany(context.Context, *FindManyCatagoryRequest) (*FindManyCatagoryResponse, error)
+	mustEmbedUnimplementedCategoryServiceServer()
+}
+
+// UnimplementedCategoryServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedCategoryServiceServer struct {
+}
+
+func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateCategoryRequest) (*CreatePostResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedCategoryServiceServer) FindMany(context.Context, *FindManyCatagoryRequest) (*FindManyCatagoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindMany not implemented")
+}
+func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
+
+// UnsafeCategoryServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CategoryServiceServer will
+// result in compilation errors.
+type UnsafeCategoryServiceServer interface {
+	mustEmbedUnimplementedCategoryServiceServer()
+}
+
+func RegisterCategoryServiceServer(s grpc.ServiceRegistrar, srv CategoryServiceServer) {
+	s.RegisterService(&CategoryService_ServiceDesc, srv)
+}
+
+func _CategoryService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/servicesDefinitions.CategoryService/create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryServiceServer).Create(ctx, req.(*CreateCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryService_FindMany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindManyCatagoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryServiceServer).FindMany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/servicesDefinitions.CategoryService/findMany",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryServiceServer).FindMany(ctx, req.(*FindManyCatagoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CategoryService_ServiceDesc is the grpc.ServiceDesc for CategoryService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CategoryService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "servicesDefinitions.CategoryService",
+	HandlerType: (*CategoryServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "create",
+			Handler:    _CategoryService_Create_Handler,
+		},
+		{
+			MethodName: "findMany",
+			Handler:    _CategoryService_FindMany_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "definition.proto",
+}

@@ -53,10 +53,36 @@ message IndexPostResponse {
     repeated Post posts = 1;
 }
 
+message Category {
+    int32 id = 1;
+    string title = 2;
+}
+
+message CreateCategoryRequest {
+    string title = 1;
+}
+
+message CreateCategoryResponse {
+    Category category = 1;
+}
+
+message FindManyCatagoryRequest {
+    repeated int32 id = 1;
+}
+
+message FindManyCatagoryResponse {
+    repeated Category categories = 1;
+
+}
 service PostService {
     rpc create(CreatePostRequest) returns (CreatePostResponse) {}
     rpc update(UpdatePostRequest) returns (UpdatePostResponse) {}
     rpc delete(DeletePostRequest) returns (DeletePostResponse) {}
     rpc get(GetPostRequest) returns (GetPostResponse) {}
     rpc index(IndexPostRequest) returns (IndexPostResponse) {}
+}
+
+service CategoryService {
+    rpc create(CreateCategoryRequest) returns (CreatePostResponse) {}
+    rpc findMany(FindManyCatagoryRequest) returns (FindManyCatagoryResponse) {}
 }
